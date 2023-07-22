@@ -12,7 +12,7 @@ const Home = () => {
       }
 
     return (
-        <Layout title="Home" description="Put your thoughts in here">
+        <Layout>
             <div className="flex justify-center">
                 <form onSubmit={save} method='post'>
                     <div className="max-w-xl lg:max-w-lg text-center">

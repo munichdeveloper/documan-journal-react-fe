@@ -7,7 +7,6 @@ import { useAuth } from "../AuthContext";
 
 const Journal = () => {
     const [journalEntryDays, setJournalEntryDays] = useState([]);
-    const [visibleStates, setVisibleStates] = useState([]);
     const [isLoading, setLoading] = useState(false);
     const [currentItem, setCurrentItem] = useState([]);
     const [currentDate, setCurrentDate] = useState();
@@ -15,15 +14,16 @@ const Journal = () => {
 
     useEffect(() => {
         setLoading(true)
-        const data = api.getGroupedJournalEntries(getUser()).then(response => {
-            setJournalEntryDays(response.data);
+        api.getGroupedJournalEntries(getUser()).then(response => {
+            const responseData = response.data;
+            setJournalEntryDays(responseData);
+            const idx = Object.keys(responseData)[0];
+            setCurrentDate(idx);
+            setCurrentItem(responseData[idx]);
         });
-        const initialStates = [];
-        Object.keys(data).forEach((k) => initialStates[k] = true);
-        setVisibleStates(initialStates);
         setLoading(false);
 
-    }, []);
+    }, [getUser]);
 
     function formatDate(k) {
         return moment(new Date(k)).format('DD.MM.YYYY');
@@ -31,33 +31,6 @@ const Journal = () => {
 
     function formatDateTime(k) {
         return moment(new Date(k)).format('HH:mm:ss');
-    }
-
-    // called from an onclick to update
-    const toggleVisibility = (index) => {
-        const newState = !visibleStates[index];
-        const newStates = [];
-        Object.keys(visibleStates).forEach((k, v) => {
-            console.log('test', visibleStates[k]);
-            if (index === k) newStates[index] = newState;
-            else {
-                newStates[k] = visibleStates[k];
-            }
-        });
-        setVisibleStates(newStates);
-    };
-
-    const timeBlock = (index, { id, content, zonedDateTime }) => {
-        return visibleStates[index] ? (
-            <div key={id} className="outline-dashed mb-5">
-                <div className="pb-5 text-xl m-2">
-                    {formatDateTime(zonedDateTime)}
-                </div>
-                <div className="m-2">
-                    {content}
-                </div>
-            </div>
-        ) : <div></div>;
     }
 
     const timeEntry = ({ id, content, zonedDateTime }) => {
@@ -75,7 +48,6 @@ const Journal = () => {
     }
 
     const currentItemTitle = () => {
-        console.log('currentItem', currentDate);
         return formatDate(currentDate);
     }
 
@@ -84,16 +56,6 @@ const Journal = () => {
     return (
         <Layout>
             <div className="w-full">
-                {/* <div className="flex flex-wrap justify-center">
-                {Object.keys(journalEntryDays).map((k, v) => (
-                    <div key={k} className="card w-2/3 bg-base-100 bg-primary text-black m-5">
-                        <div className="card-body">
-                            <h2 className="card-title text-4xl mb-3" onClick={() => toggleVisibility(k)}>{formatDate(k)}</h2>
-                            {Object.keys(journalEntryDays[k]).map((ik, iv) => (timeBlock(k, journalEntryDays[k][ik])))}
-                        </div>
-                    </div>
-                ))}
-            </div> */}
                 <div
                     id="page-container" className="relative mx-auto flex min-h-screen min-w-[320px] flex-col bg-white">
                     <div
@@ -111,8 +73,7 @@ const Journal = () => {
 
                             <div className="grow divide-y divide-dashed divide-zinc-200">
                                 {Object.keys(journalEntryDays).map((k, v) => (
-                                    <a href="javascript:void(0)"
-                                        className="flex space-x-3 p-4 hover:bg-white active:bg-transparent">
+                                    <a className={"flex space-x-3 p-4 cursor-pointer " + (currentDate == k ? "bg-zinc-100" : "bg-white")}>
                                         <div className="grow" onClick={() => setItem(k)}>
                                             <h3 className="mb-1 line-clamp-1 text-sm font-semibold">
                                                 {formatDate(k)}
