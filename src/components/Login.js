@@ -1,16 +1,25 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 import { parseJwt } from "../Helpers";
-import { api } from "../api/Api";
 import Layout from "../Layout";
+import { api } from "../api/Api";
 
 const Login = () => {
 
-    const save = async (event) => {
+    const { userLogin } = useAuth();
+    const navigate = useNavigate();
+
+    const login = async (event) => {
         event.preventDefault();
         const { email, password } = event.target;
         api.authenticate(email.value, password.value)
             .then(response => {
                 const { token } = response.data;
-                localStorage.setItem('token', token);
+                const data = parseJwt(token);
+                const user = { data, token };
+                userLogin(user);
+                navigate('/');
             })
             .catch(error => {
                 // todo
@@ -19,13 +28,9 @@ const Login = () => {
 
     return (
         <Layout>
-            <form onSubmit={save} method="post">
+            <form onSubmit={login} method="post">
                 <div className="hero min-h-screen bg-base-200">
                     <div className="hero-content flex-col lg:flex-row-reverse">
-                        <div className="text-center lg:text-left">
-                            <h1 className="text-5xl font-bold">Login now!</h1>
-                            <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-                        </div>
                         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                             <div className="card-body">
                                 <div className="form-control">
@@ -52,7 +57,7 @@ const Login = () => {
                 </div>
             </form>
         </Layout>
-    );
+    )
 }
 
 export default Login

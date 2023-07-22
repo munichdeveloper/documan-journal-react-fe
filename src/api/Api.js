@@ -39,35 +39,33 @@ function getJournalEntries() {
   return instance.get('/journalEntries');
 }
 
-function getGroupedJournalEntries() {
-  const token = localStorage.getItem('token');
-  console.log('token' + token);
+function getGroupedJournalEntries(user) {
   return instance.get('/journalEntries/byDay', {
-    headers: { 'Authorization': bearerAuth(token) }
+    headers: { 'Authorization': bearerAuth(user) }
   });
 }
 
-  function query(q) {
-    return instance.post('/query', q, {
-      headers: { 'Content-type': 'application/json' }
-    });
-  }
+function query(q) {
+  return instance.post('/query', q, {
+    headers: { 'Content-type': 'application/json' }
+  });
+}
 
-  const instance = axios.create({
-    baseURL: config.url.API_BASE_URL
-  })
+const instance = axios.create({
+  baseURL: config.url.API_BASE_URL
+})
 
-  instance.interceptors.request.use(function (config) {
-    console.log('config: ' + config.headers.Authorization);
-    if (config.headers.Authorization) {
-      const token = config.headers.Authorization.split(' ')[1];
-      parseJwt(token);
-    };
-    return config;
-  }, function (error) {
-    return Promise.reject(error);
-  })
+instance.interceptors.request.use(function (config) {
+  console.log('config: ' + config.headers.Authorization);
+  if (config.headers.Authorization) {
+    const token = config.headers.Authorization.split(' ')[1];
+    parseJwt(token);
+  };
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+})
 
-  function bearerAuth(token) {
-    return `Bearer ${token}`;
+function bearerAuth(user) {
+  return `Bearer ${user.token}`;
 }

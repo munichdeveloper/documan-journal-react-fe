@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Layout from "../Layout";
 import { api } from "../api/Api";
 import React from "react";
+import { useAuth } from "../AuthContext";
 
 const Journal = () => {
     const [journalEntryDays, setJournalEntryDays] = useState([]);
@@ -10,10 +11,11 @@ const Journal = () => {
     const [isLoading, setLoading] = useState(false);
     const [currentItem, setCurrentItem] = useState([]);
     const [currentDate, setCurrentDate] = useState();
+    const { getUser } = useAuth();
 
     useEffect(() => {
         setLoading(true)
-        const data = api.getGroupedJournalEntries().then(response => {
+        const data = api.getGroupedJournalEntries(getUser()).then(response => {
             setJournalEntryDays(response.data);
         });
         const initialStates = [];
