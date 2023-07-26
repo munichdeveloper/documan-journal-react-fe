@@ -1,6 +1,6 @@
 const prod = {
   url: {
-    API_BASE_URL: 'https://documan-journal-app',
+    API_BASE_URL: 'https://documan-journal-app.onrender.com',
   }
 }
 
