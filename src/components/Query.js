@@ -1,16 +1,20 @@
 import { useState } from "react";
 import Layout from "../Layout";
 import { api } from "../api/Api";
+import { useAuth } from "../AuthContext";
+import React from "react";
 
 const Query = () => {
 
     const [response, setResponse] = useState()
+    const { getUser } = useAuth();
 
     async function save(event) {
         event.preventDefault();
         var input = event.target.question.value;
-        api.query(input).then(res => {
-            setResponse(res);
+        api.query(input, getUser()).then(res => {
+            const { data } = res;
+            setResponse(data);
             window.my_modal_2.showModal();
         });
     }
@@ -40,10 +44,10 @@ const Query = () => {
                 </form>
 
                 <dialog id="my_modal_2" className="modal">
-                    <form method="dialog" className="modal-box">
+                    <div className="modal-box">
                         <h3 className="font-bold text-lg">Your second brain has got this for you..</h3>
                         <p className="py-4">{response}</p>
-                    </form>
+                    </div>
                     <form method="dialog" className="modal-backdrop">
                         <button>close</button>
                     </form>

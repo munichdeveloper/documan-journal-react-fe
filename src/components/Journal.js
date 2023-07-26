@@ -61,8 +61,7 @@ const Journal = () => {
                     <div
                         id="page-sidebar"
                         className="absolute bottom-0 left-0 top-0 z-50 flex h-full w-full border-r border-zinc-200/75 bg-zinc-50 transition-transform duration-500 ease-out sm:w-96 lg:translate-x-0 lg:shadow-none"
-                        aria-label="Main Sidebar Navigation"
-                        x-cloak>
+                        aria-label="Main Sidebar Navigation">
 
                         <div className="grow overflow-auto">
                             <div className="flex items-start justify-between border-b border-dashed border-zinc-200 px-5 py-4">
@@ -73,36 +72,15 @@ const Journal = () => {
 
                             <div className="grow divide-y divide-dashed divide-zinc-200">
                                 {Object.keys(journalEntryDays).map((k, v) => (
-                                    <a className={"flex space-x-3 p-4 cursor-pointer " + (currentDate == k ? "bg-zinc-100" : "bg-white")}>
+                                    <button className={"flex space-x-3 p-4 cursor-pointer " + (currentDate === k ? "bg-zinc-100" : "bg-white")}>
                                         <div className="grow" onClick={() => setItem(k)}>
                                             <h3 className="mb-1 line-clamp-1 text-sm font-semibold">
                                                 {formatDate(k)}
                                             </h3>
                                         </div>
-                                    </a>
+                                    </button>
                                 ))}
 
-                                <div className="p-3 text-center">
-                                    <button
-                                        type="button"
-                                        className="active:text-zinc-00 group inline-flex items-center gap-0.5 rounded bg-zinc-50 px-2 py-1.5 text-sm font-medium hover:bg-zinc-200/50 active:bg-transparent"
-                                    >
-                                        <svg
-                                            className="hi-mini hi-arrow-small-down inline-block h-5 w-5 text-zinc-500 group-hover:text-indigo-600"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                            aria-hidden="true"
-                                        >
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M10 5a.75.75 0 01.75.75v6.638l1.96-2.158a.75.75 0 111.08 1.04l-3.25 3.5a.75.75 0 01-1.08 0l-3.25-3.5a.75.75 0 111.08-1.04l1.96 2.158V5.75A.75.75 0 0110 5z"
-                                                clip-rule="evenodd"
-                                            />
-                                        </svg>
-                                        <span>Load more..</span>
-                                    </button>
-                                </div>
                             </div>
                         </div>
                     </div>

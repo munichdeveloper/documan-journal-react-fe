@@ -23,20 +23,22 @@ function signup(user) {
   });
 }
 
-function createJournalEntry(content) {
+function createJournalEntry(content, user) {
   return instance.post('/journalEntries', content, {
-    headers: { 'Content-type': 'application/json' }
+    headers: { 'Content-type': 'application/json','Authorization': bearerAuth(user) }
   });
 }
 
-function writeJournalEntryToIndex(content) {
+function writeJournalEntryToIndex(content, user) {
   return instance.post('/index/journalEntries', content, {
-    headers: { 'Content-type': 'application/json' }
+    headers: { 'Content-type': 'application/json', 'Authorization': bearerAuth(user) }
   });
 }
 
-function getJournalEntries() {
-  return instance.get('/journalEntries');
+function getJournalEntries(user) {
+  return instance.get('/journalEntries', {
+    headers: { 'Authorization': bearerAuth(user) }
+  });
 }
 
 function getGroupedJournalEntries(user) {
@@ -45,9 +47,9 @@ function getGroupedJournalEntries(user) {
   });
 }
 
-function query(q) {
+function query(q, user) {
   return instance.post('/query', q, {
-    headers: { 'Content-type': 'application/json' }
+    headers: { 'Content-type': 'application/json', 'Authorization': bearerAuth(user) }
   });
 }
 

@@ -1,15 +1,18 @@
+import { useAuth } from "../AuthContext";
 import { api } from "../api/Api";
 
 const { default: React } = require("react");
 const { default: Layout } = require("../Layout");
 
 const Home = () => {
+    const { getUser } = useAuth();
+
     async function save(event) {
         event.preventDefault();
         var content = event.target.journalcontent.value;
-        api.createJournalEntry(content);
-        api.writeJournalEntryToIndex(content);
-      }
+        api.createJournalEntry(content, getUser());
+        api.writeJournalEntryToIndex(content, getUser());
+    }
 
     return (
         <Layout>
