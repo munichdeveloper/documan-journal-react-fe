@@ -5,6 +5,9 @@ import { parseJwt } from "../Helpers";
 import Layout from "../Layout";
 import { api } from "../api/Api";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Login = () => {
 
     const { userLogin } = useAuth();
@@ -22,12 +25,24 @@ const Login = () => {
                 navigate('/');
             })
             .catch(error => {
-                // todo
+                toast(error.message);
             })
     }
 
     return (
         <Layout>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
             <form onSubmit={login} method="post">
                 <div className="hero min-h-screen bg-base-200">
                     <div className="hero-content flex-col lg:flex-row-reverse">
@@ -44,7 +59,7 @@ const Login = () => {
                                         <span className="label-text">Password</span>
                                     </label>
                                     <input type="text" placeholder="password" name="password" className="input input-bordered" />
-                                   
+
                                 </div>
                                 <div className="form-control mt-6">
                                     <button className="btn btn-primary">Login</button>
