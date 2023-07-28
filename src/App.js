@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
 import Query from './components/Query';
@@ -12,14 +12,14 @@ function App() {
 
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<AuthenticatedComponent><Home /></AuthenticatedComponent>} />
           <Route path="/login" element={<Login />} />
           <Route path="/query" element={<AuthenticatedComponent><Query /></AuthenticatedComponent>} />
           <Route path="/journal" element={<AuthenticatedComponent><Journal /></AuthenticatedComponent>} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </AuthProvider>
   );
 }
