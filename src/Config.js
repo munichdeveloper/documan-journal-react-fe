@@ -1,6 +1,6 @@
 const prod = {
   url: {
-    API_BASE_URL: 'http://kdr86.ddnss.de:90',
+    API_BASE_URL: 'https://kdr86.ddnss.de:90',
   }
 }
 
