@@ -1,7 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
 const Layout = ({ children }) => {
+
+    const { userLogout } = useAuth();
+
+    const logout = () => {
+        userLogout()
+    }
+
     return (
         <>
             <div>
@@ -29,8 +37,9 @@ const Layout = ({ children }) => {
                     </li>
                 </ul>
             </div>
+            <div className="text-white" onClick={logout}>/logout</div>
 
-            <div className="relative isolate bg-gray-900 h-screen overflow-auto pt-5">
+            <div className="relative isolate bg-gray-900 h-screen pt-5">
                 <div className="mx-auto px-6 lg:px-8">
                     <div className="mx-auto gap-x-8 gap-y-16 lg:max-w-none m-0">
                         {children}
