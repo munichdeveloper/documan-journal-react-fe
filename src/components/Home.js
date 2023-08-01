@@ -13,7 +13,7 @@ const Home = () => {
         event.preventDefault();
         var content = event.target.journalcontent.value;
         api.createJournalEntry(content, getUser());
-        api.writceJournalEntryToIndex(content, getUser());
+        api.writeJournalEntryToIndex(content, getUser());
         toast('Entry saved successfully!');
     }
 
