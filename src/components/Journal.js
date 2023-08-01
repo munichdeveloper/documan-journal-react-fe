@@ -63,7 +63,7 @@ const Journal = () => {
                         className="absolute bottom-0 left-0 top-0 z-50 flex h-full w-full border-r border-zinc-200/75 bg-zinc-50 transition-transform duration-500 ease-out sm:w-96 lg:translate-x-0 lg:shadow-none"
                         aria-label="Main Sidebar Navigation">
 
-                        <div className="grow overflow-auto">
+                        <div className="grow">
                             <div className="flex items-start justify-between border-b border-dashed border-zinc-200 px-5 py-4">
                                 <div className="grow">
                                     <h1 className="mb-0.5 text-2xl font-semibold">Journal</h1>
