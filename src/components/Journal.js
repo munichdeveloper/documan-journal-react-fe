@@ -5,6 +5,7 @@ import { api } from "../api/Api";
 import React from "react";
 import { useAuth } from "../AuthContext";
 
+
 const Journal = () => {
     const [journalEntryDays, setJournalEntryDays] = useState([]);
     const [isLoading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ const Journal = () => {
     useEffect(() => {
         setLoading(true)
         api.getGroupedJournalEntries(getUser()).then(response => {
-            const responseData = response.data;
+            const responseData = response?.data;
             setJournalEntryDays(responseData);
             const idx = Object.keys(responseData)[0];
             setCurrentDate(idx);
@@ -26,16 +27,20 @@ const Journal = () => {
     }, [getUser]);
 
     function formatDate(k) {
-        return moment(new Date(k)).format('DD.MM.YYYY');
+        return k ? moment(new Date(k)).format('DD.MM.YYYY') : 'No entries in your journal yet';
     }
 
     function formatDateTime(k) {
-        return moment(new Date(k)).format('HH:mm:ss');
+        return k ? moment(new Date(k)).format('HH:mm:ss') : null;
+    }
+
+    function itemEntryKeys() {
+        return currentItem && Object.keys(currentItem) ? Object.keys(currentItem) : null;
     }
 
     const timeEntry = ({ id, content, zonedDateTime }) => {
         return (
-            <div className="mb-5">
+            <div key={id} className="mb-5">
                 <p><b>{formatDateTime(zonedDateTime)}</b></p>
                 <p>{content}</p>
             </div>
@@ -72,7 +77,7 @@ const Journal = () => {
 
                             <div className="grow divide-y divide-dashed divide-zinc-200">
                                 {Object.keys(journalEntryDays).map((k, v) => (
-                                    <button className={"flex space-x-3 p-4 cursor-pointer " + (currentDate === k ? "bg-zinc-100" : "bg-white")}>
+                                    <button key={k} className={"flex space-x-3 p-4 cursor-pointer " + (currentDate === k ? "bg-zinc-100" : "bg-white")}>
                                         <div className="grow" onClick={() => setItem(k)}>
                                             <h3 className="mb-1 line-clamp-1 text-sm font-semibold">
                                                 {formatDate(k)}
@@ -92,7 +97,7 @@ const Journal = () => {
                                     <span>{currentItemTitle()}</span>
                                 </h3>
                                 <div className="prose prose-sm max-w-none p-6 md:p-10">
-                                    {Object.keys(currentItem).map((ik, iv) => (timeEntry(currentItem[ik])))}
+                                    {itemEntryKeys()?.map((ik, iv) => (timeEntry(currentItem[ik])))}
                                 </div>
                             </div>
                         </div>

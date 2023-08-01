@@ -1,3 +1,5 @@
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from "../AuthContext";
 import { api } from "../api/Api";
 
@@ -11,11 +13,24 @@ const Home = () => {
         event.preventDefault();
         var content = event.target.journalcontent.value;
         api.createJournalEntry(content, getUser());
-        api.writeJournalEntryToIndex(content, getUser());
+        api.writceJournalEntryToIndex(content, getUser());
+        toast('Entry saved successfully!');
     }
 
     return (
         <Layout>
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
             <div className="flex justify-center">
                 <form onSubmit={save} method='post'>
                     <div className="max-w-xl lg:max-w-lg text-center">

@@ -58,7 +58,6 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use(function (config) {
-  console.log('config: ' + config.headers.Authorization);
   if (config.headers.Authorization) {
     const token = config.headers.Authorization.split(' ')[1];
     parseJwt(token);
