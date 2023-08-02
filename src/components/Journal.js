@@ -77,7 +77,7 @@ const Journal = () => {
 
                             <div className="grow divide-y divide-dashed divide-zinc-200">
                                 {Object.keys(journalEntryDays).map((k, v) => (
-                                    <button key={k} className={"flex space-x-3 p-4 cursor-pointer " + (currentDate === k ? "bg-zinc-100" : "bg-white")}>
+                                    <button key={k} className={"w-full flex space-x-3 p-4 cursor-pointer " + (currentDate === k ? "bg-zinc-100" : "bg-white")}>
                                         <div className="grow" onClick={() => setItem(k)}>
                                             <h3 className="mb-1 line-clamp-1 text-sm font-semibold">
                                                 {formatDate(k)}

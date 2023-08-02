@@ -25,7 +25,7 @@ const Login = () => {
                 navigate('/');
             })
             .catch(error => {
-                toast(error.message);
+                toast('Login failed. Please check your credentials - ' + error.message);
             })
     }
 
