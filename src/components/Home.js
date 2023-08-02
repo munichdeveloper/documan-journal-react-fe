@@ -38,7 +38,7 @@ const Home = () => {
                         <p className="mt-4 text-lg leading-8 text-gray-300">
                             Use the power of AI leveraged journaling.
                             Just type in every day here, everything that seems important and the AI will lead you through
-                            your mind jungle!
+                            the jungle in your mind!
                         </p>
                         <div className="mt-6 flex gap-x-4 text-center">
                             <textarea
