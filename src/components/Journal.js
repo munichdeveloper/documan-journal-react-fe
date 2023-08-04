@@ -25,7 +25,7 @@ const Journal = () => {
     }
     
     useEffect(() => {
-      window.addEventListener("resize", handleResize)
+      window.addEventListener("resize", handleResize);
     });
 
     useEffect(() => {
@@ -38,7 +38,7 @@ const Journal = () => {
             setCurrentItem(responseData[idx]);
         });
         setLoading(false);
-
+        handleResize();
     }, [getUser]);
 
     function formatDate(k) {

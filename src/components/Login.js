@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import { parseJwt } from "../Helpers";
 import Layout from "../Layout";
@@ -7,11 +7,13 @@ import { api } from "../api/Api";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import logo from '../logo.png'; // Tell webpack this JS file uses this image
 
 const Login = () => {
 
     const { userLogin } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const login = async (event) => {
         event.preventDefault();
@@ -44,7 +46,8 @@ const Login = () => {
                 theme="dark"
             />
             <form onSubmit={login} method="post">
-                <div className="hero min-h-screen bg-base-200">
+                <div className="min-h-screen">
+
                     <div className="hero-content flex-col lg:flex-row-reverse">
                         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                             <div className="card-body">

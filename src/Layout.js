@@ -1,6 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import logo from './logo.png'; // Tell webpack this JS file uses this image
 
 const Layout = ({ children }) => {
 
@@ -10,14 +11,20 @@ const Layout = ({ children }) => {
         userLogout()
     }
 
+    const location = useLocation();
+    
+
     return (
         <>
-            <div style={{
+         {location.pathname === '/login' && <img src={logo} alt="docuMAN_logo"></img>}
+
+            {location.pathname !== '/login' && <div style={{
                     "position": "fixed",
                     "backgroundColor": "white",
                     "zIndex": "1",
                     "width": "100%"
             }}>
+               
                 <ul className="menu menu-horizontal">
                     <li>
                         <Link to="/" className="tooltip tooltip-right" data-tip="Home">
@@ -42,7 +49,7 @@ const Layout = ({ children }) => {
                     </li>
                 </ul>
                 <div className="text-white" onClick={logout}>/logout</div>
-            </div>
+            </div>}
             
 
             <div className="relative isolate bg-gray-900 h-full pt-20">
