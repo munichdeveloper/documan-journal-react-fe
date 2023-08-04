@@ -12,6 +12,21 @@ const Journal = () => {
     const [currentItem, setCurrentItem] = useState([]);
     const [currentDate, setCurrentDate] = useState();
     const { getUser } = useAuth();
+    const [pageContainerDynamicClasses, setPageContainerDynamicClasses] = useState('translate-x-0 shadow-lg');
+
+    const [isMobile, setIsMobile] = useState(false)
+ 
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+          setIsMobile(true);
+      } else {
+          setIsMobile(false);
+      }
+    }
+    
+    useEffect(() => {
+      window.addEventListener("resize", handleResize)
+    });
 
     useEffect(() => {
         setLoading(true)
@@ -47,9 +62,14 @@ const Journal = () => {
         );
     }
 
+    const showMobileSidebar = () => {
+        setPageContainerDynamicClasses('translate-x-0 shadow-lg');
+    }
+
     const setItem = (k) => {
         setCurrentDate(k);
         setCurrentItem(journalEntryDays[k]);
+        setPageContainerDynamicClasses('-translate-x-full');
     }
 
     const currentItemTitle = () => {
@@ -60,15 +80,19 @@ const Journal = () => {
 
     return (
         <Layout>
-            <div className="w-full">
-                <div
-                    id="page-container" className="relative mx-auto flex min-h-screen min-w-[320px] flex-col bg-white">
-                    <div
-                        id="page-sidebar"
-                        className="absolute bottom-0 left-0 top-0 z-50 flex h-full w-full border-r border-zinc-200/75 bg-zinc-50 transition-transform duration-500 ease-out sm:w-96 lg:translate-x-0 lg:shadow-none"
+            <div>
+                <div id="page-container" className="relative mx-auto flex min-h-screen min-w-[320px] flex-col bg-white lg:ml-96">
+                    {isMobile && <button onClick={()=>showMobileSidebar()} type="button" className="group inline-flex items-center gap-1.5 rounded bg-zinc-100 px-2.5 py-2 text-sm font-medium hover:bg-zinc-200/75 active:bg-zinc-100 active:text-zinc-700">
+                        <svg className="hi-solid hi-menu-alt-1 inline-block h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                             <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"></path>
+                        </svg>
+                    </button>}
+
+                    <nav id="page-sidebar" style={{top: "88px"}}
+                        className={"fixed bottom-0 left-0 top-88 z-50 flex h-full w-full border-r border-zinc-200/75 bg-zinc-50 transition-transform duration-500 ease-out sm:w-96 lg:translate-x-0 lg:shadow-none " + pageContainerDynamicClasses}
                         aria-label="Main Sidebar Navigation">
 
-                        <div className="grow">
+                        <div className="grow overflow-auto">
                             <div className="flex items-start justify-between border-b border-dashed border-zinc-200 px-5 py-4">
                                 <div className="grow">
                                     <h1 className="mb-0.5 text-2xl font-semibold">Journal</h1>
@@ -88,10 +112,10 @@ const Journal = () => {
 
                             </div>
                         </div>
-                    </div>
+                    </nav>
 
-                    <div id="page-content" className="grow bg-zinc-100 pt-20 lg:pt-0">
-                        <div className="mx-auto px-4 py-4 ml-96">
+                    <main id="page-content" className="grow bg-zinc-100 lg:pt-0">
+                        <div className="container mx-auto px-4 py-4 lg:p-8 xl:max-w-4xl">
                             <div className="mb-2 rounded-b bg-white">
                                 <h3 className="border-y border-dashed border-zinc-200 px-6 py-3 text-lg font-bold md:px-10">
                                     <span>{currentItemTitle()}</span>
@@ -101,7 +125,7 @@ const Journal = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </main>
 
                 </div>
             </div>

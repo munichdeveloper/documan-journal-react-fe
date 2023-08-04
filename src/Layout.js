@@ -12,7 +12,12 @@ const Layout = ({ children }) => {
 
     return (
         <>
-            <div>
+            <div style={{
+                    "position": "fixed",
+                    "backgroundColor": "white",
+                    "zIndex": "1",
+                    "width": "100%"
+            }}>
                 <ul className="menu menu-horizontal">
                     <li>
                         <Link to="/" className="tooltip tooltip-right" data-tip="Home">
@@ -36,11 +41,12 @@ const Layout = ({ children }) => {
                         </Link>
                     </li>
                 </ul>
+                <div className="text-white" onClick={logout}>/logout</div>
             </div>
-            <div className="text-white" onClick={logout}>/logout</div>
+            
 
-            <div className="relative isolate bg-gray-900 h-screen pt-5">
-                <div className="mx-auto px-6 lg:px-8">
+            <div className="relative isolate bg-gray-900 h-full pt-20">
+                <div className="mx-auto px-6 lg:px-8 pt-10">
                     <div className="mx-auto gap-x-8 gap-y-16 lg:max-w-none m-0">
                         {children}
                     </div>
