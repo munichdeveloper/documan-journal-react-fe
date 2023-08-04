@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import { parseJwt } from "../Helpers";
 import Layout from "../Layout";
@@ -7,13 +7,11 @@ import { api } from "../api/Api";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import logo from '../logo.png'; // Tell webpack this JS file uses this image
 
 const Login = () => {
 
     const { userLogin } = useAuth();
     const navigate = useNavigate();
-    const location = useLocation();
 
     const login = async (event) => {
         event.preventDefault();
