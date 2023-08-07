@@ -20,7 +20,7 @@ const Home = () => {
     return (
         <Layout>
             <ToastContainer
-                position="top-center"
+                position="top-middle"
                 autoClose={5000}
                 hideProgressBar={false}
                 newestOnTop={false}

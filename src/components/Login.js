@@ -44,7 +44,11 @@ const Login = () => {
                 theme="dark"
             />
             <form onSubmit={login} method="post">
-                <div className="min-h-screen">
+                <div className="min-h-screen" style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "flex-start"
+                }}>
 
                     <div className="hero-content flex-col lg:flex-row-reverse">
                         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
