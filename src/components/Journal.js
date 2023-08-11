@@ -1,9 +1,8 @@
 import moment from "moment";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../AuthContext";
 import Layout from "../Layout";
 import { api } from "../api/Api";
-import React from "react";
-import { useAuth } from "../AuthContext";
 
 
 const Journal = () => {
@@ -15,17 +14,17 @@ const Journal = () => {
     const [pageContainerDynamicClasses, setPageContainerDynamicClasses] = useState('translate-x-0 shadow-lg');
 
     const [isMobile, setIsMobile] = useState(false)
- 
+
     const handleResize = () => {
-      if (window.innerWidth < 1024) {
-          setIsMobile(true);
-      } else {
-          setIsMobile(false);
-      }
+        if (window.innerWidth < 1024) {
+            setIsMobile(true);
+        } else {
+            setIsMobile(false);
+        }
     }
-    
+
     useEffect(() => {
-      window.addEventListener("resize", handleResize);
+        window.addEventListener("resize", handleResize);
     });
 
     useEffect(() => {
@@ -55,7 +54,7 @@ const Journal = () => {
 
     const timeEntry = ({ id, content, zonedDateTime }) => {
         return (
-            <div key={id} className="mb-5">
+            <div key={id} id={id} className="mb-5" >
                 <p><b>{formatDateTime(zonedDateTime)}</b></p>
                 <p>{content}</p>
             </div>
@@ -82,13 +81,13 @@ const Journal = () => {
         <Layout>
             <div>
                 <div id="page-container" className="relative mx-auto flex min-h-screen min-w-[320px] flex-col bg-white lg:ml-96">
-                    {isMobile && <button onClick={()=>showMobileSidebar()} type="button" className="group inline-flex items-center gap-1.5 rounded bg-zinc-100 px-2.5 py-2 text-sm font-medium hover:bg-zinc-200/75 active:bg-zinc-100 active:text-zinc-700">
+                    {isMobile && <button onClick={() => showMobileSidebar()} type="button" className="group inline-flex items-center gap-1.5 rounded bg-zinc-100 px-2.5 py-2 text-sm font-medium hover:bg-zinc-200/75 active:bg-zinc-100 active:text-zinc-700">
                         <svg className="hi-solid hi-menu-alt-1 inline-block h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                             <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"></path>
+                            <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"></path>
                         </svg>
                     </button>}
 
-                    <nav id="page-sidebar" style={{top: "88px"}}
+                    <nav id="page-sidebar" style={{ top: "88px" }}
                         className={"fixed bottom-0 left-0 top-88 z-50 flex h-full w-full border-r border-zinc-200/75 bg-zinc-50 transition-transform duration-500 ease-out sm:w-96 lg:translate-x-0 lg:shadow-none " + pageContainerDynamicClasses}
                         aria-label="Main Sidebar Navigation">
 

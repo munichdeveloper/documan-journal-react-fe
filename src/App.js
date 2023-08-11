@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Journal from './components/Journal';
 import Login from './components/Login';
 import Query from './components/Query';
+import Register from './components/Register';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<AuthenticatedComponent><Home /></AuthenticatedComponent>} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Register />} />
           <Route path="/query" element={<AuthenticatedComponent><Query /></AuthenticatedComponent>} />
           <Route path="/journal" element={<AuthenticatedComponent><Journal /></AuthenticatedComponent>} />
         </Routes>

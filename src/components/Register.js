@@ -8,15 +8,15 @@ import { api } from "../api/Api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Login = () => {
+const Register = () => {
 
     const { userLogin } = useAuth();
     const navigate = useNavigate();
 
-    const login = async (event) => {
+
+    const signup = async (event) => {
         event.preventDefault();
-        const { email, password } = event.target;
-        api.authenticate(email.value, password.value)
+        api.signup(event.target)
             .then(response => {
                 const { token } = response.data;
                 const data = parseJwt(token);
@@ -25,7 +25,7 @@ const Login = () => {
                 navigate('/');
             })
             .catch(error => {
-                toast('Login failed. Please check your credentials - ' + error.message);
+                toast('Failed to register. Please choose a different username and try again. ' + error.message);
             })
     }
 
@@ -43,7 +43,7 @@ const Login = () => {
                 pauseOnHover
                 theme="dark"
             />
-            <form onSubmit={login} method="post">
+            <form onSubmit={signup} method="post">
                 <div className="min-h-screen" style={{
                     display: "flex",
                     justifyContent: "center",
@@ -57,19 +57,19 @@ const Login = () => {
                                     <label className="label">
                                         <span className="label-text">Email</span>
                                     </label>
-                                    <input type="text" placeholder="email" name="email" className="input input-bordered" />
+                                    <input type="text" placeholder="Choose an email" name="email" className="input input-bordered" />
                                 </div>
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Password</span>
                                     </label>
-                                    <input type="password" placeholder="password" name="password" className="input input-bordered" />
+                                    <input type="password" placeholder="Choose a password" name="password" className="input input-bordered" />
 
                                 </div>
                                 <div className="form-control mt-6">
-                                    <button className="btn btn-primary">Login</button>
+                                    <button className="btn btn-primary">Sign up</button>
                                 </div>
-                                <Link to='/signup' className="pt-3 hover:underline">Don't have an account yet? Sign up here.</Link>
+                                <Link to='/login' className="pt-3 hover:underline">Already have an account? Login here.</Link>
                             </div>
                         </div>
                     </div>
@@ -79,4 +79,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Register
