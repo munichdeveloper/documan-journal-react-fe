@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import logo from './logo.png'; // Tell webpack this JS file uses this image
@@ -6,6 +6,7 @@ import logo from './logo.png'; // Tell webpack this JS file uses this image
 const Layout = ({ children }) => {
 
     const { userLogout } = useAuth();
+    const [ dynamicPadding, setDynamicPadding] = useState('');
 
     const logout = () => {
         userLogout()
@@ -13,14 +14,25 @@ const Layout = ({ children }) => {
 
     const location = useLocation();
 
+    const handleResize = useCallback(()=>{
+        setDynamicPadding(((location.pathname !== '/login' && location.pathname !== '/signup') || window.innerWidth > 600) ? 'pt-20' : '');
+    }, [location.pathname]);
+
+    useEffect(() => {
+        window.addEventListener("resize", handleResize);
+    });
+
+    useEffect(()=>{
+        handleResize();
+    }, [handleResize]);
 
     return (
         <div style={{ backgroundColor: "white" }}>
-            {location.pathname === '/login' && <img src={logo} alt="docuMAN_logo" style={{
+            {(location.pathname === '/login' || location.pathname === '/signup') && <img src={logo} alt="docuMAN_logo" style={{
                 height: "11rem"
             }}></img>}
 
-            {location.pathname !== '/login' && <div style={{
+            {location.pathname !== '/login' && location.pathname !== '/signup' && <div style={{
                 "position": "fixed",
                 "backgroundColor": "white",
                 "zIndex": "1",
@@ -54,7 +66,7 @@ const Layout = ({ children }) => {
             </div>}
 
 
-            <div className="relative isolate bg-gray-900 h-screen pt-20">
+            <div className={"relative isolate bg-gray-900 h-screen " + dynamicPadding}>
                 <div className="mx-auto px-6 lg:px-8 pt-10">
                     <div className="mx-auto gap-x-8 gap-y-16 lg:max-w-none m-0">
                         {children}
