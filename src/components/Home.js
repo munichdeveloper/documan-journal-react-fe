@@ -12,7 +12,6 @@ const Home = ({setStatus}) => {
     async function save(event) {
         event.preventDefault();
         var content = event.target.journalcontent.value;
-        console.log('content ->> ', content);
         api.createJournalEntry(content, user);
         api.writeJournalEntryToIndex(content, user);
         toast('Entry saved successfully!');

@@ -17,8 +17,8 @@ function App() {
         <Routes>
           <Route path="/" element={<PrivateRoute><Home setStatus={setUser} /></PrivateRoute>} />
           <Route path="/login" element={<Authenticate setStatus={setUser} />} />
-          <Route path="/query" element={<PrivateRoute><Query /></PrivateRoute>} />
-          <Route path="/journal" element={<PrivateRoute><Journal /></PrivateRoute>} />
+          <Route path="/query" element={<PrivateRoute><Query setStatus={setUser}/></PrivateRoute>} />
+          <Route path="/journal" element={<PrivateRoute><Journal setStatus={setUser} /></PrivateRoute>} />
         </Routes>
       </HashRouter>
     </UserContext.Provider>

@@ -4,7 +4,7 @@ import { api } from "../api/Api";
 import React from "react";
 import { UserContext } from "../UserContext";
 
-const Query = () => {
+const Query = ({setStatus}) => {
 
     const [response, setResponse] = useState()
     const { user } = useContext(UserContext);
@@ -21,7 +21,7 @@ const Query = () => {
     }
 
     return (
-        <Layout>
+        <Layout setStatus={setStatus}>
             <div className="flex justify-center">
                 <form onSubmit={save} method='post'>
                     <div className="max-w-xl lg:max-w-lg text-center">

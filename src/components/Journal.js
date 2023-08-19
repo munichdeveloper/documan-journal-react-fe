@@ -5,7 +5,7 @@ import { api } from "../api/Api";
 import { UserContext } from "../UserContext";
 
 
-const Journal = () => {
+const Journal = ({setStatus}) => {
     const [journalEntryDays, setJournalEntryDays] = useState([]);
     const [isLoading, setLoading] = useState(false);
     const [currentItem, setCurrentItem] = useState([]);
@@ -78,7 +78,7 @@ const Journal = () => {
     if (isLoading) return <span className="loading loading-ring loading-lg"></span>
 
     return (
-        <Layout>
+        <Layout setStatus={setStatus}>
             <div>
                 <div id="page-container" className="relative mx-auto flex min-h-screen min-w-[320px] flex-col bg-white lg:ml-96">
                     {isMobile && <button onClick={() => showMobileSidebar()} type="button" className="group inline-flex items-center gap-1.5 rounded bg-zinc-100 px-2.5 py-2 text-sm font-medium hover:bg-zinc-200/75 active:bg-zinc-100 active:text-zinc-700">
