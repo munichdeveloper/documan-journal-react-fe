@@ -3,12 +3,19 @@ import { config } from '../Config';
 import { parseJwt } from '../Helpers';
 
 export const api = {
+  authenticateWithDid,
   authenticate,
   signup,
   createJournalEntry,
   writeJournalEntryToIndex,
   getJournalEntries,
   getGroupedJournalEntries, query
+}
+
+function authenticateWithDid(didToken) {
+  return instance.post('/auth/signinByMagicToken', didToken, {
+    headers: { 'Content-type': 'application/json' }
+  });
 }
 
 function authenticate(email, password) {

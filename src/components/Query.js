@@ -1,18 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Layout from "../Layout";
 import { api } from "../api/Api";
-import { useAuth } from "../AuthContext";
 import React from "react";
+import { UserContext } from "../UserContext";
 
 const Query = () => {
 
     const [response, setResponse] = useState()
-    const { getUser } = useAuth();
+    const { user } = useContext(UserContext);
+
 
     async function save(event) {
         event.preventDefault();
         var input = event.target.question.value;
-        api.query(input, getUser()).then(res => {
+        api.query(input, user).then(res => {
             const { data } = res;
             setResponse(data);
             window.my_modal_2.showModal();

@@ -1,8 +1,8 @@
 import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../AuthContext";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../Layout";
 import { api } from "../api/Api";
+import { UserContext } from "../UserContext";
 
 
 const Journal = () => {
@@ -10,8 +10,8 @@ const Journal = () => {
     const [isLoading, setLoading] = useState(false);
     const [currentItem, setCurrentItem] = useState([]);
     const [currentDate, setCurrentDate] = useState();
-    const { getUser } = useAuth();
     const [pageContainerDynamicClasses, setPageContainerDynamicClasses] = useState('translate-x-0 shadow-lg');
+    const { user } = useContext(UserContext);
 
     const [isMobile, setIsMobile] = useState(false)
 
@@ -29,7 +29,7 @@ const Journal = () => {
 
     useEffect(() => {
         setLoading(true)
-        api.getGroupedJournalEntries(getUser()).then(response => {
+        api.getGroupedJournalEntries(user).then(response => {
             const responseData = response?.data;
             setJournalEntryDays(responseData);
             const idx = Object.keys(responseData)[0];
@@ -38,7 +38,7 @@ const Journal = () => {
         });
         setLoading(false);
         handleResize();
-    }, [getUser]);
+    }, [user]);
 
     function formatDate(k) {
         return k ? moment(new Date(k)).format('DD.MM.YYYY') : 'No entries in your journal yet';

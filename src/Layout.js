@@ -1,18 +1,17 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useAuth } from "./AuthContext";
-import logo from './logo.png'; // Tell webpack this JS file uses this image
+import { logoutUser } from "./lib/magic";
+import logo from './logo.png';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, setStatus }) => {
 
-    const { userLogout } = useAuth();
     const [ dynamicPadding, setDynamicPadding] = useState('');
-
-    const logout = () => {
-        userLogout()
-    }
-
     const location = useLocation();
+
+    const logout = async () => {
+        await logoutUser();
+        return setStatus({ isLoggedIn: false });
+    }
 
     const handleResize = useCallback(()=>{
         setDynamicPadding(((location.pathname !== '/login' && location.pathname !== '/signup') || window.innerWidth > 600) ? 'pt-20' : '');

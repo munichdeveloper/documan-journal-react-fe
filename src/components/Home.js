@@ -1,25 +1,25 @@
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useAuth } from "../AuthContext";
 import { api } from "../api/Api";
+import { UserContext } from '../UserContext';
 
-const { default: React } = require("react");
+const { default: React, useContext } = require("react");
 const { default: Layout } = require("../Layout");
 
-const Home = () => {
-    const { getUser } = useAuth();
+const Home = ({setStatus}) => {
+    const { user } = useContext(UserContext);
 
     async function save(event) {
         event.preventDefault();
         var content = event.target.journalcontent.value;
         console.log('content ->> ', content);
-        api.createJournalEntry(content, getUser());
-        api.writeJournalEntryToIndex(content, getUser());
+        api.createJournalEntry(content, user);
+        api.writeJournalEntryToIndex(content, user);
         toast('Entry saved successfully!');
     }
 
     return (
-        <Layout>
+        <Layout setStatus={setStatus}>
             <ToastContainer
                 position="bottom-center"
                 autoClose={5000}

@@ -1,28 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { AuthProvider } from './AuthContext';
-import AuthenticatedComponent from './components/AuthenticatedComponent';
+import { UserContext } from './UserContext';
+import Authenticate from './components/Authenticate';
 import Home from './components/Home';
 import Journal from './components/Journal';
-import Login from './components/Login';
+import PrivateRoute from './components/PrivateRoute';
 import Query from './components/Query';
-import Register from './components/Register';
 
 function App() {
+  const [user, setUser] = useState({ isLoggedIn: false, email: '' });
 
   return (
-    <AuthProvider>
+    <UserContext.Provider value={user}>
       <HashRouter>
         <Routes>
-          <Route path="/" element={<AuthenticatedComponent><Home /></AuthenticatedComponent>} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Register />} />
-          <Route path="/query" element={<AuthenticatedComponent><Query /></AuthenticatedComponent>} />
-          <Route path="/journal" element={<AuthenticatedComponent><Journal /></AuthenticatedComponent>} />
+          <Route path="/" element={<PrivateRoute><Home setStatus={setUser} /></PrivateRoute>} />
+          <Route path="/login" element={<Authenticate setStatus={setUser} />} />
+          <Route path="/query" element={<PrivateRoute><Query /></PrivateRoute>} />
+          <Route path="/journal" element={<PrivateRoute><Journal /></PrivateRoute>} />
         </Routes>
       </HashRouter>
-    </AuthProvider>
+    </UserContext.Provider>
   );
 }
 

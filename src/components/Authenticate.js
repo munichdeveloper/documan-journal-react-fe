@@ -1,33 +1,39 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthContext";
-import { parseJwt } from "../Helpers";
-import Layout from "../Layout";
-import { api } from "../api/Api";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import Layout from '../Layout';
+import { loginUser } from '../lib/magic';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+const Authenticate = ({ setStatus }) => {
+    const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-const Login = () => {
-
-    const { userLogin } = useAuth();
     const navigate = useNavigate();
 
-    const login = async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const { email, password } = event.target;
-        api.authenticate(email.value, password.value)
-            .then(response => {
-                const { token } = response.data;
-                const data = parseJwt(token);
-                const user = { data, token };
-                userLogin(user);
-                navigate('/');
-            })
-            .catch(error => {
-                toast('Login failed. Please check your credentials - ' + error.message);
-            })
-    }
+        setLoading(true);
+        if (!email) {
+            setLoading(false);
+            setError('Email is Invalid');
+            return;
+        }
+        try {
+            loginUser(email, setStatus)
+                .then(() => {
+                    setLoading(false);
+                    navigate('/');
+                });
+        } catch (error) {
+            setError('Unable to log in');
+            console.error(error);
+        }
+    };
+
+    const handleChange = (event) => {
+        setEmail(event.target.value);
+    };
 
     return (
         <Layout>
@@ -43,7 +49,7 @@ const Login = () => {
                 pauseOnHover
                 theme="dark"
             />
-            <form onSubmit={login} method="post">
+            <form onSubmit={handleSubmit} onChange={handleChange} method="post">
                 <div className="min-h-screen" style={{
                     display: "flex",
                     justifyContent: "center",
@@ -59,24 +65,16 @@ const Login = () => {
                                     </label>
                                     <input type="text" placeholder="email" name="email" className="input input-bordered" />
                                 </div>
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">Password</span>
-                                    </label>
-                                    <input type="password" placeholder="password" name="password" className="input input-bordered" />
-
-                                </div>
                                 <div className="form-control mt-6">
                                     <button className="btn btn-primary">Login</button>
                                 </div>
-                                <Link to='/signup' className="pt-3 hover:underline">Don't have an account yet? Sign up here.</Link>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
         </Layout>
-    )
-}
+    );
+};
 
-export default Login
+export default Authenticate;
