@@ -36,7 +36,7 @@ const Authenticate = ({ setStatus }) => {
     };
 
     return (
-        <Layout>
+        <Layout setStatus={() => (null)}>
             <ToastContainer
                 position="bottom-center"
                 autoClose={5000}
@@ -66,7 +66,7 @@ const Authenticate = ({ setStatus }) => {
                                     <input type="text" placeholder="email" name="email" className="input input-bordered" />
                                 </div>
                                 <div className="form-control mt-6">
-                                    <button className="btn btn-primary">Login</button>
+                                    <button className="btn btn-primary">Login with email</button>
                                 </div>
                             </div>
                         </div>
