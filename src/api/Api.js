@@ -13,7 +13,7 @@ export const api = {
 }
 
 function authenticateWithDid(didToken) {
-  return instance.post('/auth/signinByMagicToken', didToken, {
+  return instance.post('/magic/signinByMagicToken', didToken, {
     headers: { 'Content-type': 'application/json' }
   });
 }
